@@ -47,9 +47,13 @@ for i in lstFiles:
         print comillas
         #query = "LOAD DATA LOCAL INFILE '"+path+fichero+" INTO TABLE "+str(nombre_estacion_min)+" FIELDS TERMINATED BY ',' ENCLOSED BY '"+comillas+"' ESCAPED BY '' LINES TERMINATED BY '\+"n" IGNORE 4 LINES (@Time, Temperatura, WV, Wdir, WRacha, WDirRacha, Precipitacion, Presion, Tendencia, Humedad) SET time = STR_TO_DATE(@Time, '%d/%m/%Y %H%i%s');"
         #query =  "LOAD DATA LOCAL INFILE "+"'"+path+fichero+"'"+" INTO TABLE "+str(nombre_estacion_min)+" FIELDS TERMINATED BY ',' ENCLOSED BY '""" "ESCAPED BY '' LINES TERMINATED BY '\r\n' IGNORE 4 LINES (@Time, Temperatura, WV, Wdir, WRacha, WDirRacha, Precipitacion, Presion, Tendencia, Humedad) SET time = STR_TO_DATE(@Time,'%d/%m/%Y %H:%i:s');"
+        queryDelete = "DELETE FROM "+str(nombre_estacion_min) + " WHERE Temperatura = 0 AND WV = 0 AND WRacha = 0 AND Presion = 0 AND Tendencia = 0 AND Humedad = 0;"
         query1 = "LOAD DATA LOCAL INFILE "+"'"+path+fichero+"'"+" INTO TABLE "+str(nombre_estacion_min)+" FIELDS TERMINATED BY ',' ENCLOSED BY'"+comillas+"'ESCAPED BY '' LINES TERMINATED BY '\r\n' IGNORE 4 LINES (@Time, Temperatura, WV, Wdir, WRacha, WDirRacha, Precipitacion, Presion, Tendencia, Humedad) SET time = STR_TO_DATE(@Time,'%d/%m/%Y %H:%i:s');"
         print query1
+        print queryDelete
+        cursor.execute(queryDelete)
         cursor.execute(query1)
+        cursor.execute(queryDelete)
     except _mysql_exceptions:
         print "Dato repetido - No se registrara dicho dato"
         pass
